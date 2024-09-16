@@ -4,7 +4,7 @@ RSpec.describe CustomerioAPI::CustomerioObjectResource do
   subject { described_class.new(client) }
 
   let!(:client) do
-    CustomerioAPI::Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
+    CustomerioAPI::V1Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
   end
 
   describe '#where(attributes:)' do

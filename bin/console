@@ -8,7 +8,8 @@ require 'customerio_api'
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
 
-@client = CustomerioAPI::Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
+@v1_client = CustomerioAPI::V1Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
+@v2_client = CustomerioAPI::V2Client.new(site_id: ENV['SITE_ID'], track_api_key: ENV['TRACK_API_KEY'])
 
 # (If you use this, don't forget to add pry to your Gemfile!)
 require 'pry'
@@ -16,4 +17,3 @@ Pry.start
 
 # require 'irb'
 # IRB.start(__FILE__)
-

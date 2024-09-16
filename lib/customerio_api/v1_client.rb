@@ -3,7 +3,7 @@
 require 'faraday'
 
 module CustomerioAPI
-  class Client
+  class V1Client
     BASE_URL = 'https://api.customer.io/v1/'
     attr_reader :api_key, :adapter
 
