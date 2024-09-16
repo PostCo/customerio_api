@@ -1,24 +1,80 @@
-# CustomerioApi
+# CustomerioAPI
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/customerio_api`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is an API wrapper gem for Customer.io API.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add customerio_api
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install customerio_api
 
 ## Usage
 
-TODO: Write usage instructions here
+### Client
+
+Customer.io API client is initialized with an API key which is used for bearer token authentication.
+
+```ruby
+client = CustomerioAPI::Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
+```
+
+### Customer
+
+#### 1. Get a list of customers by email
+
+```ruby
+customers = client.customer.where(email: 'test@example.com')
+
+# => returns a list of Customerio::Customer
+```
+
+### CustomerioObject
+
+#### 1. Use a set of filter conditions to find object
+
+```ruby
+attributes =
+{
+    "object_type_id": '1',
+    "filter": {
+    "and":
+        [
+            {
+            "object_attribute": {
+                "field": 'name',
+                "operator": 'eq',
+                "type_id": '1',
+                "value": 'PostCo'
+            }
+            }
+        ]
+    }
+}
+
+# start and limit params are optional
+start = "0"
+limit = 10
+
+client.object.where(attributes: attributes, start: start, limit: limit)
+
+# => returns a Customerio::CustomerioObject
+```
+
+### ObjectRelationship
+
+#### 1. Get a list of people related to an object.
+
+```ruby
+# query_params is optional
+query_params = {start: string, limit: integer, id_type: "object_id" | "cio_object_id"}
+client.object_relationship.where(object_type_id: 1, object_id: 'PostCo', query_params: query_params)
+
+# => returns a Customerio::ObjectRelationship
+```
 
 ## Development
 
@@ -36,4 +92,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the CustomerioApi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/customerio_api/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the CustomerioAPI project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/customerio_api/blob/master/CODE_OF_CONDUCT.md).
