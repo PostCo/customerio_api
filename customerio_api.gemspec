@@ -38,11 +38,11 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 
-  spec.add_dependency 'activesupport', '~> 7.0.8'
+  spec.add_dependency 'activesupport'
   spec.add_dependency 'faraday', '~> 2.7.11'
   spec.add_dependency 'zeitwerk', '~> 2.6'
-  spec.add_development_dependency('webmock', '~> 3.23.0')
 
+  spec.add_development_dependency('webmock', '~> 3.23.0')
   spec.add_development_dependency 'dotenv'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rspec'
