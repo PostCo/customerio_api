@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe CustomerioAPI::Client do
+RSpec.describe CustomerioAPI::V1Client do
   subject do
-    CustomerioAPI::Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
+    CustomerioAPI::V1Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
   end
 
   it 'uses correct base url' do
-    expect(CustomerioAPI::Client::BASE_URL).to eq('https://api.customer.io/v1/')
+    expect(CustomerioAPI::V1Client::BASE_URL).to eq('https://api.customer.io/v1/')
   end
 
   context '#customer' do

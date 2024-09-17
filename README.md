@@ -16,10 +16,28 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ### Client
 
-Customer.io API client is initialized with an API key which is used for bearer token authentication.
+#### V1Client
+
+V1Client is used to retreive data for the following resources:
+
+- Customer
+- CustomerioObject
+- ObjectRelationship
+
+V1Client is initialized with an API key which is used for bearer token authentication.
 
 ```ruby
-client = CustomerioAPI::Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
+v1_client = CustomerioAPI::V1Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
+```
+
+#### V2Client
+
+V2Client is used to perform various operations based on the type (person, object or delivery) and action (identify, add_relationships, delete, etc) that you set in the request.
+
+V2Client is initialized with a site_id and track_api_key which is used for basic authentication.
+
+```ruby
+v2_client = CustomerioAPI::V2Client.new(site_id: ENV['SITE_ID'], track_api_key: ENV['TRACK_API_KEY'])
 ```
 
 ### Customer
@@ -27,9 +45,9 @@ client = CustomerioAPI::Client.new(api_key: ENV['CUSTOMERIO_API_KEY'])
 #### 1. Get a list of customers by email
 
 ```ruby
-customers = client.customer.where(email: 'test@example.com')
+customers = v1_client.customer.where(email: 'test@example.com')
 
-# => returns a list of Customerio::Customer
+# => returns a list of CustomerioAPI::Customer
 ```
 
 ### CustomerioObject
@@ -59,9 +77,9 @@ attributes =
 start = "0"
 limit = 10
 
-client.object.where(attributes: attributes, start: start, limit: limit)
+v1_client.object.where(attributes: attributes, start: start, limit: limit)
 
-# => returns a Customerio::CustomerioObject
+# => returns a CustomerioAPI::CustomerioObject
 ```
 
 ### ObjectRelationship
@@ -71,9 +89,38 @@ client.object.where(attributes: attributes, start: start, limit: limit)
 ```ruby
 # query_params is optional
 query_params = {start: string, limit: integer, id_type: "object_id" | "cio_object_id"}
-client.object_relationship.where(object_type_id: 1, object_id: 'PostCo', query_params: query_params)
+v1_client.object_relationship.where(object_type_id: 1, object_id: 'PostCo', query_params: query_params)
 
-# => returns a Customerio::ObjectRelationship
+# => returns a CustomerioAPI::ObjectRelationship
+```
+
+### Track
+
+#### 1. Single request
+
+This endpoint lets create, update, or delete a single person or object—including managing relationships between objects and people.
+
+```ruby
+# Create a person
+attributes = { type: 'object', action: 'identify', identifiers: { object_type_id: '1', object_id: 'test'}, attributes: {name: "test"} }
+v2_client.track.entity(attributes)
+
+# => returns {}
+```
+
+#### 2. Multiple request
+
+This endpoint lets you batch requests for different people and objects in a single request.
+
+```ruby
+# Update multiple objects
+attributes = [
+    { type: 'object', action: 'identify', identifiers: { object_type_id: '1', object_id: 'shop-1' }, attributes: { name: 'Shop 1 updated' } },
+    { type: 'object', action: 'identify', identifiers: { object_type_id: '1', object_id: 'shop-2' }, attributes: { name: 'Shop 2 updated' } }
+    ]
+v2_client.track.batch(attributes)
+
+# => returns {}
 ```
 
 ## Development
