@@ -10,5 +10,11 @@ module CustomerioAPI
       response_body = get_request('customers', params: { email: email }).body
       response_body['results'].map { |customers| Customer.new(customers) }
     end
+
+    # client.customer.search(attributes: attributes)
+    def search(attributes:, start: nil, limit: nil)
+      response_body = post_request("customers?start=#{start}&limit=#{limit}", body: attributes).body
+      Customer.new(response_body)
+    end
   end
 end

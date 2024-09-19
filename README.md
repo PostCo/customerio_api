@@ -50,6 +50,29 @@ customers = v1_client.customer.where(email: 'test@example.com')
 # => returns a list of CustomerioAPI::Customer
 ```
 
+#### 2. Use s set of filter conditions to find customer
+
+```ruby
+attributes =
+  {
+    filter: {
+      and:
+          [
+            {
+              attribute: {
+                field: 'cio_id',
+                operator: 'eq',
+                value: 'd7a90a000a0b'
+              }
+            }
+          ]
+    }
+  }
+customer_identifiers = v1_client.customer.search(attributes: attributes)
+
+# => returns a CustomerioAPI::Customer object, containing arrays of identifiers and ids
+```
+
 ### CustomerioObject
 
 #### 1. Use a set of filter conditions to find object
