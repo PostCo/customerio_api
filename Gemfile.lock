@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    customerio_api (0.3.0)
+    customerio_api (0.4.0)
       activesupport
       faraday (~> 2.7.11)
       zeitwerk (~> 2.6)

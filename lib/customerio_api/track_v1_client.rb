@@ -4,7 +4,7 @@ require 'faraday'
 
 module CustomerioAPI
   class TrackV1Client
-    BASE_URL = 'https://customer.io/api/v1/'
+    BASE_URL = 'https://track.customer.io/api/v1/'
     attr_reader :site_id, :track_api_key, :adapter
 
     def initialize(site_id:, track_api_key:, adapter: Faraday.default_adapter)
