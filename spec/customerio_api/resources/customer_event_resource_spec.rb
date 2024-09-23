@@ -18,7 +18,7 @@ RSpec.describe CustomerioAPI::CustomerEventResource do
     let(:response_body) { '' } # CustomerEvent API returns an empty response on success
 
     before do
-      stub_request(:post, "https://customer.io/api/v1/customers/#{identifier}/events")
+      stub_request(:post, "https://track.customer.io/api/v1/customers/#{identifier}/events")
         .with(
           headers: {
             'Authorization' => "Basic #{Base64.strict_encode64("#{ENV['SITE_ID']}:#{ENV['TRACK_API_KEY']}")}"
